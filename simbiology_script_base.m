@@ -3,7 +3,7 @@ clc; % Clear text in console
 clear all; % Clear all variables in workbench
 close all; % Close any open Figure windows
 
-%% MODEL LOADING AND CONFIGURATION
+%% Model Selection and Loading
 % The SBProj file is loaded. We then load that model's default
 % simulation ConfigSet into cs. We set the SolverType and StopTime (24
 % hours in seconds)
@@ -17,6 +17,7 @@ end
 
 % Load the SimBiology project from the full file path and name, storing into the 'file' variable
 file = sbioloadproject(fullfile(projPathName, projFileName));
+
 % Load model of interest from file to local variable m
 model = file.m1;
 
@@ -34,9 +35,9 @@ set(configSet, 'StopTime', 86400); % Set the StopTime to 86400 seconds (24 hours
 disp('[Notice] Model Initialized successfully')
 
 %% Model Configuration
+
 % Configure model details, such as parameter values or initial specie values, in here....
 
-        
 %% Performing Simulation
 disp('[Status] Initialization and Configuration Complete.\n [Status] Begining simulations.')
 % Next we actually run a simulation on our model by calling sbiosimulate(...) on our model object with a simulation configSet. 
