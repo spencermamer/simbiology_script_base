@@ -42,16 +42,21 @@ disp('[Notice] Model Initialized successfully')
 disp('[Status] Initialization and Configuration Complete.\n [Status] Begining simulations.')
 
         
-% Ensure default values.
+
 % results into tempResults
 try
-	tempResults = sbiosimulate(m, cs, [], []);
+	simulationOutput = sbiosimulate(m, cs, [], []);
 catch exception
         exception
         continue
 end
-data = tempResults.Data;
-time = tempResults.time;
+
+% The simulation results are stored in the output objection returned by sbiosimulate(...). For convenience, let's separate them out. 
+
+time = simulationOutput.Time; % Assign new variable 'time' which contains the time points for the following data points. Each row represents a different time point found. Spacing in time points will vary with models and simulation solver choices. 
+
+data = simulationOutput.Data; % Data is returned as a matrix of n columns (n == number of output variables) and t rows (t being the number of steps used in solving, or how many time points were found. This will be the same length as the number of time rows.  
+
         
         
 
