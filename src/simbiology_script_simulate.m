@@ -1,7 +1,10 @@
 %% Pre-setup Cleanup
-clc; % Clear text in console
-clear all; % Clear all variables in workbench
-close all; % Close any open Figure windows
+% Before running, clear the workspace variables, close all opened windows,
+% and clear the console
+clearvars;
+close all;
+clc;
+
 
 %% Model Selection and Loading
 % The SBProj file is loaded. We then load that model's default
@@ -26,7 +29,7 @@ model = file.m1;
 % Define configSet to point to model's default simulation ConfigSet
 configSet = getconfigset(model, 'default');
 % Sets the configSet to use the "sundials" simulation solver engine
-set(configSet, 'SolverType', 'sundials'); 
+set(configSet, 'SolverType', 'ode15'); 
 % The StopTime defines for how many time data points should the simulation solve. By default, values are assumed to be in seconds, though this can be changed
 set(configSet, 'StopTime', 86400); % Set the StopTime to 86400 seconds (24 hours)
 
@@ -37,13 +40,15 @@ disp('[Notice] Model Initialized successfully')
 %% Model Configuration
 
 % Configure model details, such as parameter values or initial specie values, in here....
+% Example: 
+model.Species(1).InitialValue = 2400;
 
 %% Performing Simulation
 disp('[Status] Initialization and Configuration Complete.\n [Status] Begining simulations.')
 % Next we actually run a simulation on our model by calling sbiosimulate(...) on our model object with a simulation configSet. 
 
-% Simulations often fail, sometimes for certain parameter configurations, or with the wrong SolverType choice. When they fail, an exception is thrown that, unhandled, will stop the script. This is a particular pain when we are running simulations within a loop, such as during a parameter variation study. 
 
+% Simulations often fail, sometimes for certain parameter configurations, or with the wrong SolverType choice. When they fail, an exception is thrown that, unhandled, will stop the script. This is a particular pain when we are running simulations within a loop, such as during a parameter variation study. 
 % To avoid this, we enclose the command inside a try/catch block. If sbiosimulate throws an exception, we catch it, print the exception description, and then move on in the script.
 try
     % Execute the model simulation and assign the simulation output object to new variable, simulationOutput
